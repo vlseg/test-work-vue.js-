@@ -8,10 +8,15 @@
           <h2>Garage</h2>
         </b-col>
 
+
         <b-col md="1">
           <button v-on:click="logout" id="logout" class="btn btn-primary">Вихід</button>
         </b-col>
- 
+
+        <b-col md="1">
+          <details-table />
+        </b-col>
+
   </b-row>
      
   <router-view>
@@ -22,8 +27,8 @@
 <script>
 //import { authenticationService } from "@/_services";
 import { router } from "@/_helpers";
-import axios from 'axios'; 
-	
+import axios from 'axios';
+
 import DetailsTable from './TableDetails/DetailsTable';
 import { Component } from '@fullcalendar/core';
 export default  {
@@ -32,11 +37,12 @@ export default  {
     return {
       //currentUser: JSON.parse(localStorage.getItem('currentUser'))
     };
-    Component({
-      components:{DetailsTable},
-    })
+    // Component({
+    // })
   },
-
+  components:{
+      DetailsTable
+  },
   computed: {},
   created() {
         //this.$store.currentUser = JSON.parse(localStorage.getItem('currentUser'));
