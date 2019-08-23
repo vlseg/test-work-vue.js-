@@ -10,6 +10,7 @@ import VueAxios from 'vue-axios'
 import { store } from './store'
 import 'vue-datetime/dist/vue-datetime.css'
 import VueI18n from 'vue-i18n'
+
 /* import DetailsTable from "../src/components/DetailsTable"; */
 
 /* Vue.component ("Details-table" ,DetailsTable );
