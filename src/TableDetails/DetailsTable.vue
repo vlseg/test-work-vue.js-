@@ -46,7 +46,9 @@
             <template
                     slot="startTime"
                     slot-scope="row"
-            >{{ row.item.time }}</template>
+            >
+                 {{ row.item.time }}
+            </template>
             <template
                     slot="customerPhoneNumber"
                     slot-scope="row"
@@ -108,9 +110,26 @@
 export default {
   name:'Detailtable',
   created() {
-    const infoTable = this.$store.getters.infoTable.reverse();
+    var infoTable = this.$store.getters.infoTable.reverse();
+      infoTable
+          .map(
+              (dateFormat, index) => {
+                  let s = infoTable[index].time;
+                  if (!(s instanceof Date)) {
+                      let orig = s;
+                      s = new Date(s);
+                      if (s == 'Invalid Date') return orig;
+                  }
+                  var dateFormat = new Intl.DateTimeFormat('us-RU', {
+                      year: 'numeric', month: 'numeric', day: 'numeric',
+                      hour: 'numeric', minute: 'numeric'
+                  }).format(s);
+                  infoTable[index].time = dateFormat
+                return infoTable
+              }
+          )
 
-    var date1 = new Date();
+      var date1 = new Date();
     date1.setDate(date1.getDate() -3);
 
     var date2 = new Date();
@@ -118,6 +137,7 @@ export default {
 
     console.log('Date1: ' + date1.toISOString().slice(0,10));
     console.log('Date2: ' + date2.toISOString().slice(0,10));
+/*
     this.$store
       .dispatch("getOrder", {
         params: {
@@ -153,6 +173,7 @@ export default {
           };
         });
       });
+*/
   },
   data() {
     return {
@@ -204,7 +225,6 @@ export default {
         title: "",
         content: ""
       },
-
     };
   },
   computed: {
@@ -216,11 +236,38 @@ export default {
           return { text: f.label, value: f.key };
         });
     },
-    infoTable () {
-      console.log(this.$store.getters.infoTable[0].id)
-      return this.$store.getters.infoTable
-    },
-  },
+      infoTable () {
+          console.log(this.$store.getters.infoTable[0].id)
+          return this.$store.getters.infoTable
+      },
+
+    // dateFormat() {
+    //     console.log(this.infoTable[0].time)
+    //     const { time } = this.infoTable
+    //     console.log('time->',time)
+    //     let s = this.infoTable[0].time
+    //
+    //     return this.infoTable
+    //         .map(
+    //             (dateFormat, index) => {
+    //                 s = this.infoTable[0].time;
+    //                 if (!(s instanceof Date)) {
+    //                     let orig = s;
+    //                     s = new Date(s);
+    //                     if (s == 'Invalid Date') return orig;
+    //                 }
+    //                 var dateFormat = new Intl.DateTimeFormat('us-RU', {
+    //                     year: 'numeric', month: 'numeric', day: 'numeric',
+    //                     hour: 'numeric', minute: 'numeric'
+    //                 }).format(s);
+    //                 console.log(dateFormat)
+    //             }
+    //         )
+    //
+    //     return dateFormat
+    // }
+
+},
   mounted() {
     // Set the initial number of items
     this.totalRows = this.infoTable.length;
